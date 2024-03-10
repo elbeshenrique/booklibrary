@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{4E1F06
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		Dockerfile = Dockerfile
+		..\docker-compose.yml = ..\docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Models", "src\BookLibrary.Models\BookLibrary.Models.csproj", "{D4A82DF0-0F13-496E-A8D3-71D43CCFFE09}"
@@ -17,6 +18,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Services", "src\BookLibrary.Services\BookLibrary.Services.csproj", "{978FC859-E25B-48F9-B2E4-14853E3F748F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Repositories", "src\BookLibrary.Repositories\BookLibrary.Repositories.csproj", "{834D5C79-5876-4EB1-895F-DBFDE91D9237}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{FDB81DA9-7554-4F73-B763-FF696C2C0141}"
+	ProjectSection(SolutionItems) = preProject
+		..\k8s\deployment.yaml = ..\k8s\deployment.yaml
+		..\k8s\service.yaml = ..\k8s\service.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

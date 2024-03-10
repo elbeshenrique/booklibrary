@@ -4,11 +4,12 @@
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7147;http://localhost:5257",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CONNECTION_STRING": "Data Source=127.0.0.1;Initial Catalog=BookLibrary;User Id=sa;Password=db_password123;TrustServerCertificate=true;"
       }
     }
   }

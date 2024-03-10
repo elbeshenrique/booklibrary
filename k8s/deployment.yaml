@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booklibraryapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booklibraryapi
+  template:
+    metadata:
+      labels:
+        app: booklibraryapi
+    spec:
+      containers:
+        - name: booklibraryapi
+          image: elbeshcamerasacr1.azurecr.io/booklibraryapi:v2
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: acr-auth

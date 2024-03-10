@@ -1,4 +1,5 @@
-﻿using BookLibrary.Models.Enums;
+﻿using BookLibrary.Models;
+using BookLibrary.Models.Enums;
 using BookLibrary.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -8,13 +9,13 @@ namespace BookLibrary.Api.EndpointsDefinition;
 public class ApiEndpoints
 {
     private const string SearchBooks = "/books";
-    
+
     public void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet(SearchBooks, SearchBooksEndpoint);
     }
 
-    [SwaggerResponse(StatusCodes.Status200OK, "Ok")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Ok", typeof(IEnumerable<Book>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad request")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Not found")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Server error")]
@@ -24,7 +25,7 @@ public class ApiEndpoints
         [FromServices] IBookService bookService)
     {
         var books = await bookService.SearchBooks(searchBy, searchValue);
-        
+
         return books switch
         {
             null => Results.NotFound(),
