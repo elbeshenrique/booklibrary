@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BookLibrary.Models\BookLibrary.Models.csproj" />
+      <ProjectReference Include="..\BookLibrary.Repositories\BookLibrary.Repositories.csproj" />
+    </ItemGroup>
+
+</Project>
