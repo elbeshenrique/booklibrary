@@ -1,0 +1,16 @@
+# .NET
+*.dll
+*.exe
+*.pdb
+*.user
+*.suo
+*.cache
+*.log
+bin/
+obj/
+packages/
+
+# React
+node_modules/
+build/
+dist/
