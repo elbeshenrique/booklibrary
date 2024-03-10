@@ -17,5 +17,8 @@ spec:
           image: elbeshcamerasacr1.azurecr.io/booklibraryapi:v2
           ports:
             - containerPort: 80
+          env:
+            - name: CONNECTION_STRING
+              value: "Server=tcp:{server_address},1433;Initial Catalog={database};Persist Security Info=False;User ID=elbesh;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
       imagePullSecrets:
         - name: acr-auth
