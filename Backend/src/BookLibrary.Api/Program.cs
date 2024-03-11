@@ -6,12 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(80);
-    serverOptions.ListenAnyIP(443);
-});
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -22,6 +16,25 @@ builder.Services.AddDbContext<LibraryDbContext>(options =>
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", b =>
+    {
+        b.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(80);
+        serverOptions.ListenAnyIP(443);
+    });
+}
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -31,6 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 var apiEndpoints = app.Services.GetRequiredService<ApiEndpoints>();
 apiEndpoints.MapEndpoints(app);
