@@ -1,11 +1,53 @@
 version: "3.9"
 services:
-  database:
-    image: "mcr.microsoft.com/mssql/server"
-    ports:
-      - "1433:1433"
-    environment:
-      SA_PASSWORD: "db_password123"
-      ACCEPT_EULA: "Y"
-    volumes:
-      - ./Database/data:/var/opt/mssql/data
+    database:
+        image: "mcr.microsoft.com/mssql/server"
+        ports:
+            - "1433:1433"
+        environment:
+            SA_PASSWORD: "db_password123"
+            ACCEPT_EULA: "Y"
+        volumes:
+            - ./Database/data:/var/opt/mssql/data
+            - ./Database/create-database.sql:/create-database.sql
+            - ./Database/init.sql:/init.sql
+        command: >
+          /bin/bash -c "
+            /opt/mssql/bin/sqlservr &
+            SQL_PID=$!;
+            while ! /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P db_password123 -Q 'SELECT 1;' > /dev/null 2>&1;
+            do
+              sleep 1;
+            done;
+            /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P db_password123 -d master -i /create-database.sql;
+            /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P db_password123 -d BookLibrary -i /init.sql;
+            wait $SQL_PID"
+        networks:
+              - app-network
+
+    backend:
+        build: Backend
+        ports:
+            - "8080:80"
+            - "8443:443"
+        environment:
+            CONNECTION_STRING: "Data Source=database:1433;Initial Catalog=BookLibrary;User Id=sa;Password=db_password123;TrustServerCertificate=true;"
+        depends_on:
+            - database
+        networks:
+            - app-network
+
+    frontend:
+        build: Frontend
+        environment:
+            - VITE_BOOKS_API_URL=http://localhost:8080
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
+        networks:
+          - app-network
+
+networks:
+    app-network:
+        driver: bridge
